@@ -4,6 +4,8 @@ class CarouselWidget extends StatefulWidget {
   const CarouselWidget({
     required this.items,
     this.animationDuration = const Duration(milliseconds: 300),
+    this.itemBorderRadius = 8.0,
+    this.itemSpacing = 4.0,
     super.key,
   });
 
@@ -12,6 +14,12 @@ class CarouselWidget extends StatefulWidget {
 
   /// 애니메이션 동작시간
   final Duration animationDuration;
+
+  /// 아이템 BorderRadius
+  final double itemBorderRadius;
+
+  /// 아이템 간 간격
+  final double itemSpacing;
 
   @override
   State<CarouselWidget> createState() => _CarouselWidgetState();
@@ -110,14 +118,18 @@ class _CarouselWidgetState extends State<CarouselWidget>
         // margin: 위젯이 붙어보이지 않도록 간격(margin) 추가
         // 이전/다음 페이지는 현재 페이지의 90% 크기로 표시, 애니메이션 적용
         return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4.0),
+          margin: EdgeInsets.symmetric(
+            horizontal: widget.itemSpacing,
+          ),
           child: AnimatedBuilder(
             animation: _scaleAnimations[index],
             builder: (context, child) {
               return Transform.scale(
                 scale: _scaleAnimations[index].value,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
+                  borderRadius: BorderRadius.circular(
+                    widget.itemBorderRadius,
+                  ),
                   child: widget.items[index],
                 ),
               );
